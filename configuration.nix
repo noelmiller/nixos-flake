@@ -103,6 +103,21 @@
   hardware.bluetooth.enable = true;
   services.pcscd.enable = true;
 
+  systemd.services.wifi-suspend-fix = {
+    description = "Remove brcmfmac module before sleep to prevent crashes";
+  
+    before = [ "sleep.target" ];
+  
+    serviceConfig = {
+      Type = "oneshot";
+      ExecStart = "/run/current-system/sw/bin/bash -c 'sleep 2 && exec /run/current-system/sw/bin/modprobe -r brcmfmac'";
+      ExecStop = "/run/current-system/sw/bin/modprobe brcmfmac";
+      RemainAfterExit = true; # Keeps the service 'active' so ExecStop runs on resume
+    };
+
+    wantedBy = [ "sleep.target" ];
+  };
+
 
   # Install and configure git
   programs.git = {
