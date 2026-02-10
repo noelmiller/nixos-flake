@@ -132,17 +132,31 @@
   # list packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    vim
-    google-chrome
+    bazaar
+    chezmoi
     discord
-    yubioath-flutter
+    distrobox
+    element-desktop
     fastfetch
     flatpak-builder
-    bazaar
-    virt-manager
-    element-desktop
+    gh
+    google-chrome
+    lazygit
+    spotify
     tree
+    vim
+    virt-manager
+    yubioath-flutter
   ];
+
+  # install and configure emacs
+  services.emacs = {
+    enable = true;
+    package = (pkgs.emacsPackagesFor pkgs.emacs-pgtk).emacsWithPackages (
+      epkgs: [ epkgs.vterm ]
+    );
+    defaultEditor = true;
+  };
 
   # install and configure flatpak
   services.flatpak.enable = true;
