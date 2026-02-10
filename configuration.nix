@@ -103,20 +103,20 @@
   hardware.bluetooth.enable = true;
   services.pcscd.enable = true;
 
-  systemd.services.wifi-suspend-fix = {
-    description = "Remove brcmfmac module before sleep to prevent crashes";
-  
-    before = [ "sleep.target" ];
-  
-    serviceConfig = {
-      Type = "oneshot";
-      ExecStart = "/run/current-system/sw/bin/bash -c 'sleep 2 && exec /run/current-system/sw/bin/modprobe -r brcmfmac'";
-      ExecStop = "/run/current-system/sw/bin/modprobe brcmfmac";
-      RemainAfterExit = true; # Keeps the service 'active' so ExecStop runs on resume
-    };
+  powerManagement = {
+    powerDownCommands = ''
+      echo "DEBUG: Powering down - Unloading modules..." >> /tmp/power-trace.log
+      ${pkgs.kmod}/bin/modprobe -r -f facetimehd 2>&1 | tee -a /tmp/power-trace.log
+      ${pkgs.kmod}/bin/modprobe -r -f brcmfmac_wcc 2>&1 | tee -a /tmp/power-trace.log
+    '';
 
-    wantedBy = [ "sleep.target" ];
+    resumeCommands = ''
+      echo "DEBUG: Resuming - Reloading modules..." >> /tmp/power-trace.log
+      ${pkgs.kmod}/bin/modprobe brcmfmac 2>&1 | tee -a /tmp/power-trace.log
+      ${pkgs.kmod}/bin/modprobe facetimehd 2>&1 | tee -a /tmp/power-trace.log
+    '';
   };
+  hardware.enableRedistributableFirmware = true;
 
 
   # Install and configure git
