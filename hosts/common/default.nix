@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
 {
   # enable nix flakes feature
@@ -52,7 +52,7 @@
   };
 
   # Enable the OpenSSH daemon.
-  services.openssh.enable = true;
+  services.openssh.enable = lib.mkDefault true;
 
   # install and configure git
   programs.git = {
