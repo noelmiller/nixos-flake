@@ -39,13 +39,7 @@
   };
 
   # enable fish shell
-  programs.fish = {
-    enable = true;
-    shellAbbrs = {
-      rebuild = "sudo nixos-rebuild switch --flake /home/noel/repos/nixos#${config.networking.hostName}";
-      update = "nix flake update --flake /home/noel/repos/nixos";
-    };
-  };
+  programs.fish.enable = true;
 
   # define a user account.
   users.users.noel = {
@@ -53,24 +47,10 @@
     description = "Noel Miller";
     extraGroups = [ "networkmanager" "wheel" ];
     shell = pkgs.fish;
-    packages = with pkgs; [
-    ];
   };
 
   # Enable the OpenSSH daemon.
   services.openssh.enable = lib.mkDefault true;
-
-  # install and configure git
-  programs.git = {
-    enable = true;
-    config = {
-      user = {
-        name = "Noel Miller";
-        email = "noel@noelmiller.dev";
-      };
-    init.defaultBranch = "main";
-    };
-  };
 
   # core programs
   environment.systemPackages = with pkgs; [
