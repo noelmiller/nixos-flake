@@ -17,4 +17,7 @@
   environment.systemPackages = with pkgs; [
     distrobox
   ];
+
+  # add my user to docker group
+  users.users.noel.extraGroups = [ "docker" ];
 }
