@@ -4,6 +4,7 @@
   environment.systemPackages = with pkgs; [
     flatpak-builder
     lazygit
+    marksman
   ];
 
   # install and configure emacs
