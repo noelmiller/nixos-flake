@@ -13,18 +13,22 @@
   programs.fish = {
     enable = true;
     shellAbbrs = {
-      rebuild = "sudo nixos-rebuild switch --flake /home/noel/repos/nixos#${osConfig.networking.hostName}";
+      deploy = "sudo nixos-rebuild switch --flake /home/noel/repos/nixos#${osConfig.networking.hostName}";
       update = "nix flake update --flake /home/noel/repos/nixos";
+      full-upgrade = "nix flake update --flake /home/noel/repos/nixos --commit-lock-file && sudo nixos-rebuild switch --flake /home/noel/repos/nixos#${osConfig.networking.hostName}";
+      clean = "sudo nix-collect-garbage -d";
     };
   };
 
   # Git configuration
   programs.git = {
     enable = true;
-    userName = "Noel Miller";
-    userEmail = "noel@noelmiller.dev";
-    extraConfig = {
-      init.defaultBranch = "main";
+    settings = {
+      user = {
+        name = "Noel Miller";
+        email = "noel@noelmiller.dev";
+        init.defaultBranch = "main";
+      };
     };
   };
 
