@@ -39,7 +39,13 @@
   };
 
   # enable fish shell
-  programs.fish.enable = true;
+  programs.fish = {
+    enable = true;
+    shellAbbrs = {
+      rebuild = "sudo nixos-rebuild switch --flake /home/noel/repos/nixos#${config.networking.hostName}";
+      update = "nix flake update --flake /home/noel/repos/nixos";
+    };
+  };
 
   # define a user account.
   users.users.noel = {
