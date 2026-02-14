@@ -8,6 +8,7 @@
     element-desktop
     protonvpn-gui
     spotify
+    vlc
     yubioath-flutter
   ];
 
