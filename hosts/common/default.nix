@@ -55,6 +55,7 @@
   # core programs
   environment.systemPackages = with pkgs; [
     chezmoi
+    dig
     fastfetch
     gh
     tree
