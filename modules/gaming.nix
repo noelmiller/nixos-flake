@@ -1,4 +1,4 @@
-{ config, pkgs, scopebuddy, ... }:
+{ config, pkgs, ... }:
 
 {
   # enable steam
@@ -20,7 +20,6 @@
   # install gaming tools
   environment.systemPackages = with pkgs; [
     protonplus
-    scopebuddy.packages.${pkgs.system}.default
     jq
   ];
 }
