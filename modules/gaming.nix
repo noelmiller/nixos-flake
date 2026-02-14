@@ -9,11 +9,6 @@
     localNetworkGameTransfers.openFirewall = true;
   };
 
-  # enable mangohud
-  programs.mangohud = {
-    enable = true;
-  };
-
   # enable gamescope
   programs.gamescope = {
     enable = true;
