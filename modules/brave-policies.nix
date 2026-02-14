@@ -4,6 +4,7 @@
   BraveRewardsDisabled = true;
   BraveVPNDisabled = true;
   BraveNewsDisabled = true;
+  BraveAIChatEnabled = false;
   
   # Disable autofill features
   AutofillAddressEnabled = false;
