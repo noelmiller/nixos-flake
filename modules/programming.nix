@@ -3,7 +3,7 @@
 {
   environment.systemPackages = with pkgs; [
     flatpak-builder
-    github-copilot-cli
+    unstable.github-copilot-cli
     lazygit
     marksman
   ];
