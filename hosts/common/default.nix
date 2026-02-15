@@ -4,6 +4,13 @@
   # enable nix flakes feature
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
+  # configure automatic garbage collection
+  nix.gc = {
+    automatic = true;
+    dates = "weekly";
+    options = "--delete-older-than 30d";
+  };
+
   # allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
