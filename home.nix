@@ -11,11 +11,19 @@
 
   # user-specific packages
   home.packages = with pkgs; [
+    carapace
+    starship
   ];
 
   # fish shell configuration
   programs.fish = {
     enable = true;
+    shellInit = ''
+      set -gx CARAPACE_BRIDGES 'zsh,fish,bash,inshellisense'
+    '';
+    interactiveShellInit = ''
+      carapace _carapace | source
+    '';
     shellAbbrs = {
       deploy = "sudo nixos-rebuild switch --flake /home/noel/repos/nixos#${osConfig.networking.hostName}";
       update = "nix flake update --flake /home/noel/repos/nixos";
