@@ -10,13 +10,14 @@
   hardware.graphics = {
     enable = true;
     enable32Bit = true;
+    extraPackages = with pkgs; [
+      rocmPackages.clr.icd  # The OpenCL runtime Resolve is looking for
+    ];
   };
 
   # Enable ROCm OpenCL support for AMD GPUs (better performance)
   hardware.amdgpu.opencl.enable = true;
 
-  # Optionally add ROCm packages for advanced GPU compute
-  systemd.tmpfiles.rules = [
-    "L+    /opt/rocm/hip   -    -    -     -    ${pkgs.rocmPackages.clr}"
-  ];
+  # Enable kernel driver early
+  boot.initrd.kernelModules = [ "amdgpu" ];
 }

@@ -11,6 +11,7 @@
       ../../modules/gaming.nix
       ../../modules/packages.nix
       ../../modules/programming.nix
+      ../../modules/video-editing.nix
       ../../modules/virtualisation.nix
     ];
 
