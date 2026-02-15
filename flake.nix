@@ -8,45 +8,39 @@
     };
   };
 
-  outputs = inputs@{ self, nixpkgs, nixpkgs-stable, home-manager, ... }:
+  outputs = { self, nixpkgs, nixpkgs-stable, home-manager, ... }@inputs:
     let
+      system = "x86_64-linux";
+
       # Create an overlay to make stable packages available
       overlay-stable = final: prev: {
         stable = import nixpkgs-stable {
-          system = prev.system;
+          inherit system;
           config.allowUnfree = true;
         };
       };
+
+      mkSystem = host:
+        nixpkgs.lib.nixosSystem {
+          inherit system;
+          specialArgs = { inherit inputs; };
+          modules = [
+            ./hosts/${host}/configuration.nix
+            home-manager.nixosModules.home-manager
+            {
+              nixpkgs.overlays = [ overlay-stable ];
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.users.noel = import ./home.nix;
+              home-manager.extraSpecialArgs = { inherit inputs; };
+            }
+          ];
+        };
     in
     {
       nixosConfigurations = {
-        macbook = nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          modules = [
-            ./hosts/macbook/configuration.nix
-            home-manager.nixosModules.home-manager
-            {
-              nixpkgs.overlays = [ overlay-stable ];
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-              home-manager.users.noel = import ./home.nix;
-            }
-          ];
-        };
-
-        desktop = nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          modules = [
-            ./hosts/desktop/configuration.nix
-            home-manager.nixosModules.home-manager
-            {
-              nixpkgs.overlays = [ overlay-stable ];
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-              home-manager.users.noel = import ./home.nix;
-            }
-          ];
-        };
+        macbook = mkSystem "macbook";
+        desktop = mkSystem "desktop";
       };
     };
 }
