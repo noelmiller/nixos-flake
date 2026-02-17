@@ -59,6 +59,9 @@
   # Enable the OpenSSH daemon.
   services.openssh.enable = lib.mkDefault true;
 
+  # Nerd Fonts
+  fonts.packages = builtins.filter lib.attrsets.isDerivation (builtins.attrValues pkgs.nerd-fonts);
+
   # core programs
   environment.systemPackages = with pkgs; [
     chezmoi
