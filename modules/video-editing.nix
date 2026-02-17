@@ -1,9 +1,10 @@
 { config, pkgs, ... }:
 
 {
-  # Install DaVinci Resolve Studio
+  # Install DaVinci Resolve Studio and scrcpy for DroidCam
   environment.systemPackages = with pkgs; [
     davinci-resolve-studio
+    scrcpy
   ];
 
   # Enable OpenGL hardware acceleration (required for DaVinci Resolve)
