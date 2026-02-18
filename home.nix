@@ -12,6 +12,7 @@
   # user-specific packages
   home.packages = with pkgs; [
     carapace
+    calibre
     starship
   ];
 
