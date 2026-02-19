@@ -22,4 +22,10 @@
     protonplus
     jq
   ];
+
+  # enable zwift
+  programs.zwift = {
+    enable = true;
+    containerTool = "podman";
+  };
 }
