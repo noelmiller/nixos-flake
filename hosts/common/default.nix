@@ -21,6 +21,12 @@
   # enable smart card and yubikey support
   services.pcscd.enable = true;
 
+  # Enable basic OpenGL hardware acceleration
+  hardware.graphics = {
+    enable = true;
+    enable32Bit = true;  # Needed for 32-bit games/apps
+  };
+
   # set your time zone.
   time.timeZone = "America/Chicago";
 
