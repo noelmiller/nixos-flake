@@ -13,6 +13,7 @@
   home.packages = with pkgs; [
     carapace
     calibre
+    ente-desktop
     starship
   ];
 
