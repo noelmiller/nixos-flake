@@ -28,7 +28,7 @@
     shellAbbrs = {
       deploy = "sudo nixos-rebuild switch --flake /home/noel/repos/nixos#${osConfig.networking.hostName}";
       update = "nix flake update --flake /home/noel/repos/nixos";
-      full-upgrade = "nix flake update --flake /home/noel/repos/nixos --commit-lock-file && sudo nixos-rebuild switch --flake /home/noel/repos/nixos#${osConfig.networking.hostName}";
+      full-upgrade = "nix flake update --flake /home/noel/repos/nixos && sudo nixos-rebuild switch --flake /home/noel/repos/nixos#${osConfig.networking.hostName}";
       clean = "sudo nix-collect-garbage -d";
     };
   };
