@@ -4,9 +4,12 @@
   # common packages
   environment.systemPackages = with pkgs; [
     brave
+    calibre
     discord
     element-desktop
+    ente-desktop
     protonvpn-gui
+    signal-desktop
     spotify
     vlc
     yubioath-flutter
