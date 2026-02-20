@@ -10,6 +10,7 @@
     ente-desktop
     protonvpn-gui
     signal-desktop
+    slack
     spotify
     vlc
     yubioath-flutter
