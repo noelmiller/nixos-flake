@@ -35,7 +35,7 @@
       update = "nix flake update --flake /home/noel/repos/nixos";
       full-upgrade = "nix flake update --flake /home/noel/repos/nixos && sudo nixos-rebuild switch --flake /home/noel/repos/nixos#${osConfig.networking.hostName}";
       clean = "sudo nix-collect-garbage -d";
-      rust-project = "nix flake init --template \"https://flakehub.com/f/the-nix-way/dev-templates/*#rust\"";
+      rust-project = "nix flake new --template \"https://flakehub.com/f/the-nix-way/dev-templates/*#rust\"";
     };
   };
 
