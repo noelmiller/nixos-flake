@@ -7,6 +7,7 @@
     github-copilot-cli
     lazygit
     marksman
+    vscode
   ];
 
   # install and configure emacs
