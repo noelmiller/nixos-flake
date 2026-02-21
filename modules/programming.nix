@@ -5,7 +5,6 @@
   environment.systemPackages = with pkgs; [
     android-tools
     flatpak-builder
-    flox
     github-copilot-cli
     lazygit
     marksman

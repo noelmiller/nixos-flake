@@ -77,6 +77,7 @@
     chezmoi
     dig
     fastfetch
+    flox
     gh
     tree
     vim
