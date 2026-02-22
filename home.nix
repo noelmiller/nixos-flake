@@ -28,6 +28,7 @@
       set -gx CARAPACE_BRIDGES 'zsh,fish,bash,inshellisense'
     '';
     interactiveShellInit = ''
+      set fish_greeting
       carapace _carapace | source
     '';
 
