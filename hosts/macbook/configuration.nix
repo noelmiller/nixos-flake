@@ -28,7 +28,7 @@
 
     resumeCommands = ''
       echo "DEBUG: Resuming - Reloading modules..." >> /tmp/power-trace.log
-      ${pkgs.kmod}/bin/modprobe brcmfmac 2>&1 | tee -a /tmp/power-trace.log
+      ${pkgs.kmod}/bin/modprobe brcmfmac_wcc 2>&1 | tee -a /tmp/power-trace.log
       ${pkgs.kmod}/bin/modprobe facetimehd 2>&1 | tee -a /tmp/power-trace.log
     '';
   };
