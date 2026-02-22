@@ -7,8 +7,11 @@
     devenv
     flatpak-builder
     github-copilot-cli
+    kubectl
+    kubernetes-helm
     lazygit
     marksman
+    minikube
     vscode
   ];
 
