@@ -11,9 +11,18 @@
     options = "--delete-older-than 30d";
   };
 
-  # add flox cache as a trusted substituter and public key
-  nix.settings.trusted-substituters = [ "https://cache.flox.dev", "https://devenv.cachix.org" ];
-  nix.settings.trusted-public-keys = [ "flox-cache-public-1:7F4OyH7ZCnFhcze3fJdfyXYLQw/aV7GEed86nQ7IsOs=", "devenv.cachix.org-1:w1cLUi8dv3hnoSPGAuibQv+f9TZLr6cv/Hm9XgU50cw=" ];
+  # Add trusted users for nix. This allows these users to use nix commands without sudo and to access the nix store.
+  nix.settings.trusted-users = [ "root" "noel" ];
+
+  # add flox cache and devenv cache as a trusted substituter and public key
+  nix.settings.trusted-substituters = [ 
+    "https://cache.flox.dev"
+    "https://devenv.cachix.org" 
+  ];
+  nix.settings.trusted-public-keys = [ 
+    "flox-cache-public-1:7F4OyH7ZCnFhcze3fJdfyXYLQw/aV7GEed86nQ7IsOs="
+    "devenv.cachix.org-1:w1cLUi8dv3hnoSPGAuibQv+f9TZLr6cv/Hm9XgU50cw=" 
+  ];
 
   # allow unfree packages
   nixpkgs.config.allowUnfree = true;
