@@ -12,8 +12,8 @@
   };
 
   # add flox cache as a trusted substituter and public key
-  nix.settings.trusted-substituters = [ "https://cache.flox.dev" ];
-  nix.settings.trusted-public-keys = [ "flox-cache-public-1:7F4OyH7ZCnFhcze3fJdfyXYLQw/aV7GEed86nQ7IsOs=" ];
+  nix.settings.trusted-substituters = [ "https://cache.flox.dev", "https://devenv.cachix.org" ];
+  nix.settings.trusted-public-keys = [ "flox-cache-public-1:7F4OyH7ZCnFhcze3fJdfyXYLQw/aV7GEed86nQ7IsOs=", "devenv.cachix.org-1:w1cLUi8dv3hnoSPGAuibQv+f9TZLr6cv/Hm9XgU50cw=" ];
 
   # allow unfree packages
   nixpkgs.config.allowUnfree = true;

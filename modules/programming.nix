@@ -4,6 +4,7 @@
   # install programming tools
   environment.systemPackages = with pkgs; [
     android-tools
+    devenv
     flatpak-builder
     github-copilot-cli
     lazygit
