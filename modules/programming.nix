@@ -13,6 +13,7 @@
     marksman
     minikube
     vscode
+    wget
   ];
 
   # install and configure emacs
