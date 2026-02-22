@@ -22,7 +22,7 @@
     powerDownCommands = ''
       echo "DEBUG: Powering down - Unloading modules..." >> /tmp/power-trace.log
       ${pkgs.kmod}/bin/modprobe -r -f facetimehd 2>&1 | tee -a /tmp/power-trace.log
-      ${pkgs.kmod}/bin/modprobe -r -f brcmfmac_wcc 2>&1 | tee -a /tmp/power-trace.log
+      ${pkgs.kmod}/bin/modprobe -r -f brcmfmac 2>&1 | tee -a /tmp/power-trace.log
     '';
 
     resumeCommands = ''
