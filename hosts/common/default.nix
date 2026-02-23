@@ -90,6 +90,7 @@
     fastfetch
     flox
     gh
+    psmisc
     tree
     vim
   ];
