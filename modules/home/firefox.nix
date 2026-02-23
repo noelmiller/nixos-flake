@@ -39,7 +39,7 @@
         ];
       };
       ExtensionSettings = builtins.listToAttrs (
-        builtins.map
+        map
           (id: {
             name = id;
             value = {
