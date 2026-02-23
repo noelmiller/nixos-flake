@@ -1,19 +1,18 @@
-{ config, pkgs, ... }:
+{ ... }:
 
 {
-  imports =
-    [
-      ./hardware-configuration.nix
-      ../common/default.nix
-      ../../modules/containers.nix
-      ../../modules/flatpak.nix
-      ../../modules/kde.nix
-      ../../modules/gaming.nix
-      ../../modules/packages.nix
-      ../../modules/programming.nix
-      ../../modules/video-editing.nix
-      ../../modules/virtualisation.nix
-    ];
+  imports = [
+    ./hardware-configuration.nix
+    ../common/default.nix
+    ../../modules/containers.nix
+    ../../modules/flatpak.nix
+    ../../modules/kde.nix
+    ../../modules/gaming.nix
+    ../../modules/packages.nix
+    ../../modules/programming.nix
+    ../../modules/video-editing.nix
+    ../../modules/virtualisation.nix
+  ];
 
   networking.hostName = "desktop"; # Define your hostname.
 

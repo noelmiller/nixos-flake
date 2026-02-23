@@ -1,4 +1,4 @@
-{ config, pkgs, osConfig, ... }:
+{ pkgs, osConfig, ... }:
 
 {
   home.username = "noel";
@@ -48,7 +48,7 @@
         '';
       };
     };
-    
+
     shellAbbrs = {
       deploy = "sudo nixos-rebuild switch --flake /home/noel/repos/nixos#${osConfig.networking.hostName}";
       update = "nix flake update --flake /home/noel/repos/nixos";

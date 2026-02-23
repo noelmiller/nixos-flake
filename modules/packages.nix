@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ pkgs, ... }:
 
 {
   # common packages
@@ -26,14 +26,14 @@
   };
 
   # brave configuration
-    programs.chromium = {
+  programs.chromium = {
     enable = true;
     extensions = [
-      "aeblfdkhhhdcdjpifhhbdiojplfjncoa"  # 1Password
-      "eimadpbcbfnmbkopoojfekhnkhdbieeh"  # Dark Reader
-      "cjpalhdlnbpafiamejdnhcphjbkeiagm"  # uBlock Origin
-      "dbepggeogbaibhgnhhndojpepiihcmeb"  # Vimium
-      "lcbjdhceifofjlpecfpeimnnphbcjgnc"  # xBrowserSync
+      "aeblfdkhhhdcdjpifhhbdiojplfjncoa" # 1Password
+      "eimadpbcbfnmbkopoojfekhnkhdbieeh" # Dark Reader
+      "cjpalhdlnbpafiamejdnhcphjbkeiagm" # uBlock Origin
+      "dbepggeogbaibhgnhhndojpepiihcmeb" # Vimium
+      "lcbjdhceifofjlpecfpeimnnphbcjgnc" # xBrowserSync
     ];
   };
 

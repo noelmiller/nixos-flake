@@ -1,14 +1,14 @@
-{ config, pkgs, ... }:
+{ pkgs, ... }:
 
 {
   # enable virtualization
   virtualisation.libvirtd = {
-  enable = true;
-  qemu = {
-    package = pkgs.qemu_kvm;
-    runAsRoot = true;
-    swtpm.enable = true;
-  };
+    enable = true;
+    qemu = {
+      package = pkgs.qemu_kvm;
+      runAsRoot = true;
+      swtpm.enable = true;
+    };
   };
 
   # add my user to libvirtd group

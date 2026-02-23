@@ -1,8 +1,11 @@
-{ config, pkgs, lib, ... }:
+{ pkgs, lib, ... }:
 
 {
   # enable nix flakes feature
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
 
   # configure automatic garbage collection
   nix.gc = {
@@ -12,16 +15,19 @@
   };
 
   # Add trusted users for nix. This allows these users to use nix commands without sudo and to access the nix store.
-  nix.settings.trusted-users = [ "root" "noel" ];
+  nix.settings.trusted-users = [
+    "root"
+    "noel"
+  ];
 
   # add flox cache and devenv cache as a trusted substituter and public key
-  nix.settings.trusted-substituters = [ 
+  nix.settings.trusted-substituters = [
     "https://cache.flox.dev"
-    "https://devenv.cachix.org" 
+    "https://devenv.cachix.org"
   ];
-  nix.settings.trusted-public-keys = [ 
+  nix.settings.trusted-public-keys = [
     "flox-cache-public-1:7F4OyH7ZCnFhcze3fJdfyXYLQw/aV7GEed86nQ7IsOs="
-    "devenv.cachix.org-1:w1cLUi8dv3hnoSPGAuibQv+f9TZLr6cv/Hm9XgU50cw=" 
+    "devenv.cachix.org-1:w1cLUi8dv3hnoSPGAuibQv+f9TZLr6cv/Hm9XgU50cw="
   ];
 
   programs.nix-ld.enable = true;
@@ -39,7 +45,7 @@
   # Enable basic OpenGL hardware acceleration
   hardware.graphics = {
     enable = true;
-    enable32Bit = true;  # Needed for 32-bit games/apps
+    enable32Bit = true; # Needed for 32-bit games/apps
   };
 
   # set your time zone.
@@ -73,7 +79,10 @@
   users.users.noel = {
     isNormalUser = true;
     description = "Noel Miller";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+    ];
     shell = pkgs.fish;
   };
 

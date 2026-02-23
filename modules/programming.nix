@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ pkgs, ... }:
 
 {
   # install programming tools
@@ -12,16 +12,17 @@
     lazygit
     marksman
     minikube
+    nil # used for nix language server
+    nixd
     vscode
     wget
+    zed-editor
   ];
 
   # install and configure emacs
   services.emacs = {
     enable = true;
-    package = (pkgs.emacsPackagesFor pkgs.emacs-pgtk).emacsWithPackages (
-      epkgs: [ epkgs.vterm ]
-    );
+    package = (pkgs.emacsPackagesFor pkgs.emacs-pgtk).emacsWithPackages (epkgs: [ epkgs.vterm ]);
     defaultEditor = true;
   };
 }

@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ ... }:
 
 {
   programs.firefox = {
@@ -39,21 +39,23 @@
         ];
       };
       ExtensionSettings = builtins.listToAttrs (
-      builtins.map (id: {
-        name = id;
-        value = {
-          install_url = "https://addons.mozilla.org/firefox/downloads/latest/${id}/latest.xpi";
-          installation_mode = "force_installed";
-          default_area = "navbar";
-        };
-      }) [
-        "uBlock0@raymondhill.net"                # uBlock Origin
-        "{d7742d87-e61d-4b78-b8a1-b469842139fa}" # Vimium
-        "addon@darkreader.org"                   # Dark Reader
-        "{d634138d-c276-4fc8-924b-40a0ea21d284}" # 1Password
-        "{019b606a-6f61-4d01-af2a-cea528f606da}" # XBrowserSync
-      ]
-    );
+        builtins.map
+          (id: {
+            name = id;
+            value = {
+              install_url = "https://addons.mozilla.org/firefox/downloads/latest/${id}/latest.xpi";
+              installation_mode = "force_installed";
+              default_area = "navbar";
+            };
+          })
+          [
+            "uBlock0@raymondhill.net" # uBlock Origin
+            "{d7742d87-e61d-4b78-b8a1-b469842139fa}" # Vimium
+            "addon@darkreader.org" # Dark Reader
+            "{d634138d-c276-4fc8-924b-40a0ea21d284}" # 1Password
+            "{019b606a-6f61-4d01-af2a-cea528f606da}" # XBrowserSync
+          ]
+      );
     };
   };
 }
