@@ -4,6 +4,7 @@
   # install programming tools
   environment.systemPackages = with pkgs; [
     android-tools
+    devcontainer
     devenv
     flatpak-builder
     github-copilot-cli
@@ -13,7 +14,7 @@
     marksman
     minikube
     nil # used for nix language server
-    nixd
+    nixd # used for nix language server
     vscode
     wget
     zed-editor
