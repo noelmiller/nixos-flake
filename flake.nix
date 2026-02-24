@@ -35,7 +35,7 @@
       };
 
       mkSystem =
-        host: username:
+        host: username: email:
         nixpkgs.lib.nixosSystem {
           inherit system;
           specialArgs = { inherit inputs; };
@@ -55,15 +55,16 @@
                 home.username = username;
                 home.homeDirectory = "/home/${username}";
               };
-              home-manager.extraSpecialArgs = { inherit inputs; };
+              home-manager.extraSpecialArgs = { inherit inputs email; };
             }
           ];
         };
 
       mkHome =
-        username:
+        username: email:
         home-manager.lib.homeManagerConfiguration {
           pkgs = nixpkgs.legacyPackages.${system};
+          extraSpecialArgs = { inherit email; };
           modules = [
             ./home.nix
             {
@@ -75,13 +76,13 @@
     in
     {
       nixosConfigurations = {
-        macbook = mkSystem "macbook" "noel";
-        desktop = mkSystem "desktop" "noel";
+        macbook = mkSystem "macbook" "noel" "noel@noelmiller.dev";
+        desktop = mkSystem "desktop" "noel" "noel@noelmiller.dev";
       };
 
       homeConfigurations = {
-        "noel" = mkHome "noel";
-        "nomiller" = mkHome "nomiller";
+        "noel" = mkHome "noel" "noel@noelmiller.dev";
+        "nomiller" = mkHome "nomiller" "nomiller@redhat.com";
       };
     };
 }

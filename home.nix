@@ -1,11 +1,18 @@
-{ pkgs, ... }:
+{ pkgs, email, ... }:
 
 {
   home.stateVersion = "25.11";
 
   # user-specific packages
   home.packages = with pkgs; [
+    bat
     carapace
+    devcontainer
+    devenv
+    fd
+    lazygit
+    ripgrep
+    zoxide
   ];
 
   programs.direnv = {
@@ -54,7 +61,7 @@
     settings = {
       user = {
         name = "Noel Miller";
-        email = "noel@noelmiller.dev";
+        email = email;
         init.defaultBranch = "main";
       };
     };

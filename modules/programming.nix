@@ -4,20 +4,17 @@
   # install programming tools
   environment.systemPackages = with pkgs; [
     android-tools
+    argocd
     claude-code
-    devcontainer
-    devenv
     flatpak-builder
+    gemini-cli
     gh
-    github-copilot-cli
+    kompose
     kubectl
     kubernetes-helm
-    lazygit
-    marksman
     minikube
     nil # used for nix language server
     nixd # used for nix language server
-    wget
     zed-editor
   ];
 }

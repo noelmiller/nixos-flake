@@ -101,8 +101,10 @@
     dig
     fastfetch
     flox
+    nmap
     psmisc
     tree
     vim
+    wget
   ];
 }
