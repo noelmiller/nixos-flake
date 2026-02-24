@@ -56,7 +56,11 @@
       mkHome =
         username: email:
         home-manager.lib.homeManagerConfiguration {
-          pkgs = nixpkgs.legacyPackages.${system};
+          pkgs = import nixpkgs {
+            inherit system;
+            config.allowUnfree = true;
+            overlays = [ overlay-stable ];
+          };
           extraSpecialArgs = { inherit email; };
           modules = [
             ./home.nix
