@@ -12,7 +12,7 @@
   home.packages = with pkgs; [
     bat
     carapace
-    devcontainer
+    stable.devcontainer
     devenv
     fd
     fzf

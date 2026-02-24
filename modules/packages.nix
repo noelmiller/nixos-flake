@@ -4,7 +4,7 @@
   # common packages
   environment.systemPackages = with pkgs; [
     brave
-    calibre
+    stable.calibre
     discord
     element-desktop
     ente-desktop

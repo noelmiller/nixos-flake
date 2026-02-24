@@ -3,7 +3,6 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-25.11";
     zwift.url = "github:netbrain/zwift";
-    flox.url = "github:flox/flox";
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -17,7 +16,6 @@
       nixpkgs-stable,
       home-manager,
       zwift,
-      flox,
       ...
     }@inputs:
     let
@@ -28,10 +26,6 @@
           inherit system;
           config.allowUnfree = true;
         };
-      };
-
-      overlay-flox = final: prev: {
-        flox = flox.packages.${system}.default;
       };
 
       mkSystem =
@@ -46,7 +40,6 @@
             {
               nixpkgs.overlays = [
                 overlay-stable
-                overlay-flox
               ];
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;

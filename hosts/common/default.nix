@@ -25,12 +25,10 @@
   ];
 
   # add flox cache and devenv cache as a trusted substituter and public key
-  nix.settings.trusted-substituters = [
-    "https://cache.flox.dev"
+  nix.settings.extra-substituters = [
     "https://devenv.cachix.org"
   ];
   nix.settings.trusted-public-keys = [
-    "flox-cache-public-1:7F4OyH7ZCnFhcze3fJdfyXYLQw/aV7GEed86nQ7IsOs="
     "devenv.cachix.org-1:w1cLUi8dv3hnoSPGAuibQv+f9TZLr6cv/Hm9XgU50cw="
   ];
 
@@ -100,7 +98,6 @@
   environment.systemPackages = with pkgs; [
     dig
     fastfetch
-    flox
     nmap
     psmisc
     tree
