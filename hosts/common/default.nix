@@ -1,6 +1,10 @@
 { pkgs, lib, ... }:
 
 {
+  imports = [
+    ./modules/shell-aliases.nix
+  ];
+
   # enable nix flakes feature
   nix.settings.experimental-features = [
     "nix-command"
