@@ -1,4 +1,9 @@
-{ pkgs, email, ... }:
+{
+  pkgs,
+  email,
+  config,
+  ...
+}:
 
 {
   home.stateVersion = "25.11";
@@ -33,8 +38,16 @@
       carapace _carapace | source
       zoxide init fish | source
     '';
-
     functions = {
+      hm-switch = {
+        body = ''
+          if test -f /etc/NIXOS
+            echo "You are on a NixOS system. Use 'deploy' instead."
+          else
+            home-manager switch --flake ~/repos/nixos#${config.home.username}
+          end
+        '';
+      };
       new-rust = {
         body = ''
           if test -n "$argv[1]"
