@@ -10,6 +10,7 @@
     devcontainer
     devenv
     fd
+    fzf
     lazygit
     ripgrep
     zoxide
@@ -30,6 +31,7 @@
     interactiveShellInit = ''
       set fish_greeting
       carapace _carapace | source
+      zoxide init fish | source
     '';
 
     functions = {
