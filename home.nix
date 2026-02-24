@@ -3,10 +3,6 @@
 {
   home.stateVersion = "25.11";
 
-  imports = [
-    ./modules/home/firefox.nix
-  ];
-
   # user-specific packages
   home.packages = with pkgs; [
     carapace
