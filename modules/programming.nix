@@ -4,6 +4,7 @@
   # install programming tools
   environment.systemPackages = with pkgs; [
     android-tools
+    claude-code
     devcontainer
     devenv
     flatpak-builder
