@@ -10,11 +10,19 @@
     };
   };
 
-  outputs = { self, nixpkgs, nixpkgs-stable, home-manager, zwift, flox, ... }@inputs:
+  outputs =
+    {
+      self,
+      nixpkgs,
+      nixpkgs-stable,
+      home-manager,
+      zwift,
+      flox,
+      ...
+    }@inputs:
     let
       system = "x86_64-linux";
 
-      # Create an overlay to make stable packages available
       overlay-stable = final: prev: {
         stable = import nixpkgs-stable {
           inherit system;
@@ -22,12 +30,12 @@
         };
       };
 
-      # Create an overlay to make flox-cli available
       overlay-flox = final: prev: {
         flox = flox.packages.${system}.default;
       };
 
-      mkSystem = host:
+      mkSystem =
+        host: username:
         nixpkgs.lib.nixosSystem {
           inherit system;
           specialArgs = { inherit inputs; };
@@ -36,19 +44,44 @@
             home-manager.nixosModules.home-manager
             zwift.nixosModules.default
             {
-              nixpkgs.overlays = [ overlay-stable overlay-flox ];
+              nixpkgs.overlays = [
+                overlay-stable
+                overlay-flox
+              ];
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
-              home-manager.users.noel = import ./home.nix;
+              home-manager.users.${username} = {
+                imports = [ ./home.nix ];
+                home.username = username;
+                home.homeDirectory = "/home/${username}";
+              };
               home-manager.extraSpecialArgs = { inherit inputs; };
+            }
+          ];
+        };
+
+      mkHome =
+        username:
+        home-manager.lib.homeManagerConfiguration {
+          pkgs = nixpkgs.legacyPackages.${system};
+          modules = [
+            ./home.nix
+            {
+              home.username = username;
+              home.homeDirectory = "/home/${username}";
             }
           ];
         };
     in
     {
       nixosConfigurations = {
-        macbook = mkSystem "macbook";
-        desktop = mkSystem "desktop";
+        macbook = mkSystem "macbook" "noel";
+        desktop = mkSystem "desktop" "noel";
+      };
+
+      homeConfigurations = {
+        "noel" = mkHome "noel";
+        "nomiller" = mkHome "nomiller";
       };
     };
 }
