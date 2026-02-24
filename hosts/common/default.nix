@@ -94,11 +94,9 @@
 
   # core programs
   environment.systemPackages = with pkgs; [
-    chezmoi
     dig
     fastfetch
     flox
-    gh
     psmisc
     tree
     vim

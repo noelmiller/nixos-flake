@@ -8,6 +8,7 @@
     devcontainer
     devenv
     flatpak-builder
+    gh
     github-copilot-cli
     kubectl
     kubernetes-helm
