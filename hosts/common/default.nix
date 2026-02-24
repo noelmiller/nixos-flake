@@ -2,7 +2,7 @@
 
 {
   imports = [
-    ./modules/shell-aliases.nix
+    ../../modules/shell-aliases.nix
   ];
 
   # enable nix flakes feature
