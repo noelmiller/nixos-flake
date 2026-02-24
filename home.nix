@@ -12,7 +12,6 @@
   # user-specific packages
   home.packages = with pkgs; [
     carapace
-    starship
   ];
 
   programs.direnv = {
@@ -45,6 +44,11 @@
             echo "Error: Please provide a project name."
             return 1
           end
+        '';
+      };
+      lg = {
+        body = ''
+          lazygit $argv[1]
         '';
       };
     };
