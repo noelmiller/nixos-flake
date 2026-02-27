@@ -1,10 +1,18 @@
-{ pkgs, ... }:
+{ pkgs, nixpkgs-calibre, ... }:
 
+# override for broken calibre package
+let
+  pkgs-calibre = import nixpkgs-calibre {
+    inherit (pkgs) system;
+    config.allowUnfree = true;
+  };
+
+in
 {
   # common packages
   environment.systemPackages = with pkgs; [
     brave
-    stable.calibre
+    pkgs-calibre.calibre # override for broken calibre package
     discord
     element-desktop
     ente-desktop
