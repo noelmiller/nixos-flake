@@ -71,7 +71,7 @@
             config.allowUnfree = true;
             overlays = [ overlay-stable ];
           };
-          extraSpecialArgs = { inherit email; };
+          extraSpecialArgs = { inherit email nixpkgs-devcontainer; };
           modules = [
             ./home.nix
             {
