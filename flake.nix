@@ -36,7 +36,14 @@
         host: username: email: features:
         nixpkgs.lib.nixosSystem {
           inherit system;
-          specialArgs = { inherit inputs nixpkgs-calibre nixpkgs-zed-editor features; };
+          specialArgs = {
+            inherit
+              inputs
+              nixpkgs-calibre
+              nixpkgs-zed-editor
+              features
+              ;
+          };
           modules = [
             ./hosts/${host}/configuration.nix
             home-manager.nixosModules.home-manager
@@ -96,6 +103,7 @@
           containers = true;
           flatpak = true;
           programming = true;
+          tailscale = true;
           zed = true;
         };
       };

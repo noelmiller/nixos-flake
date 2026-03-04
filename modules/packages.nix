@@ -25,17 +25,24 @@ let
   # Custom scrcpy with hardware acceleration (fixes ghost window)
   scrcpy-hw = pkgs.scrcpy.overrideAttrs (oldAttrs: {
     nativeBuildInputs = (oldAttrs.nativeBuildInputs or [ ]) ++ [ pkgs.makeWrapper ];
-    postInstall =
-      (oldAttrs.postInstall or "")
-      + ''
-        wrapProgram $out/bin/scrcpy --add-flags "--render-driver=opengl"
-      '';
+    postInstall = (oldAttrs.postInstall or "") + ''
+      wrapProgram $out/bin/scrcpy --add-flags "--render-driver=opengl"
+    '';
   });
 
   explicitPackages = lib.flatten [
 
     # ── Common ────────────────────────────────────────────────────────────
-    (with pkgs; [ dig fastfetch nmap psmisc nvd tree vim wget ])
+    (with pkgs; [
+      dig
+      fastfetch
+      nmap
+      psmisc
+      nvd
+      tree
+      vim
+      wget
+    ])
 
     # ── Packages ──────────────────────────────────────────────────────────
     (with pkgs; [
@@ -53,31 +60,43 @@ let
     (lib.optionals (f.calibre or false) [ pkgs-calibre.calibre ])
 
     # ── Programming ───────────────────────────────────────────────────────
-    (lib.optionals (f.programming or false) (with pkgs; [
-      android-tools
-      argocd
-      claude-code
-      flatpak-builder
-      gemini-cli
-      gh
-      kompose
-      kubectl
-      kubernetes-helm
-      minikube
-      nil
-      nixd
-    ]))
+    (lib.optionals (f.programming or false) (
+      with pkgs;
+      [
+        android-tools
+        argocd
+        claude-code
+        flatpak-builder
+        gemini-cli
+        gh
+        kompose
+        kubectl
+        kubernetes-helm
+        minikube
+        nil
+        nixd
+      ]
+    ))
     (lib.optionals (f.zed or false) [ pkgs-zed-editor.zed-editor ])
 
     # ── Gaming ────────────────────────────────────────────────────────────
-    (lib.optionals (f.gaming or false) (with pkgs; [ jq protonplus ]))
+    (lib.optionals (f.gaming or false) (
+      with pkgs;
+      [
+        jq
+        protonplus
+      ]
+    ))
 
     # ── Video Editing ─────────────────────────────────────────────────────
-    (lib.optionals (f.video or false) (with pkgs; [
-      davinci-resolve-studio
-      scrcpy-hw
-      v4l-utils
-    ]))
+    (lib.optionals (f.video or false) (
+      with pkgs;
+      [
+        davinci-resolve-studio
+        scrcpy-hw
+        v4l-utils
+      ]
+    ))
 
     # ── Containers ────────────────────────────────────────────────────────
     (lib.optionals (f.containers or false) (with pkgs; [ distrobox ]))
@@ -162,6 +181,9 @@ in
       enable = true;
       containerTool = "podman";
     };
+
+    # ── Tailscale ───────────────────────────────────────────────────────────
+    services.tailscale.enable = f.tailscale or false;
 
     # ── Video Editing ─────────────────────────────────────────────────────
     hardware.graphics.extraPackages = lib.optionals (f.video or false) [
