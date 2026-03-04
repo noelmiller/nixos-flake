@@ -1,5 +1,12 @@
-{ pkgs, ... }:
+{ pkgs, nixpkgs-zed, ... }:
 
+let
+  pkgs-zed = import nixpkgs-zed {
+    inherit (pkgs) system;
+    config.allowUnfree = true;
+  };
+
+in
 {
   # install programming tools
   environment.systemPackages = with pkgs; [
@@ -15,6 +22,6 @@
     minikube
     nil # used for nix language server
     nixd # used for nix language server
-    zed-editor
+    pkgs-zed.zed-editor # override broken zed build
   ];
 }

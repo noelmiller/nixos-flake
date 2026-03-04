@@ -2,18 +2,9 @@
   pkgs,
   email,
   config,
-  nixpkgs-devcontainer, # override for broken devcontainer package
   ...
 }:
 
-# override for broken devcontainer package
-let
-  pkgs-devcontainer = import nixpkgs-devcontainer {
-    inherit (pkgs) system;
-    config.allowUnfree = true;
-  };
-
-in
 {
   home.stateVersion = "25.11";
 
@@ -21,7 +12,7 @@ in
   home.packages = with pkgs; [
     bat
     carapace
-    pkgs-devcontainer.devcontainer # override for broken devcontainer package
+    devcontainer
     devenv
     fd
     fzf

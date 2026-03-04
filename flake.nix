@@ -3,8 +3,8 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-25.11";
     zwift.url = "github:netbrain/zwift";
-    nixpkgs-devcontainer.url = "github:NixOS/nixpkgs/0182a361324364ae3f436a63005877674cf45efb";
     nixpkgs-calibre.url = "github:NixOS/nixpkgs/e75cdcb2b4b3698c61993b85440ee97761dbcc88";
+    nixpkgs-zed.url = "github:NixOS/nixpkgs/63b5125ed0e8c41b559ab4a02d1470b83d2d5660";
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -18,8 +18,8 @@
       nixpkgs-stable,
       home-manager,
       zwift,
-      nixpkgs-devcontainer,
       nixpkgs-calibre,
+      nixpkgs-zed,
       ...
     }@inputs:
     let
@@ -36,7 +36,7 @@
         host: username: email:
         nixpkgs.lib.nixosSystem {
           inherit system;
-          specialArgs = { inherit inputs nixpkgs-calibre; };
+          specialArgs = { inherit inputs nixpkgs-calibre nixpkgs-zed; };
           modules = [
             ./hosts/${host}/configuration.nix
             home-manager.nixosModules.home-manager
@@ -56,7 +56,6 @@
                 inherit
                   inputs
                   email
-                  nixpkgs-devcontainer
                   ;
               };
             }
@@ -71,7 +70,7 @@
             config.allowUnfree = true;
             overlays = [ overlay-stable ];
           };
-          extraSpecialArgs = { inherit email nixpkgs-devcontainer; };
+          extraSpecialArgs = { inherit email; };
           modules = [
             ./home.nix
             {

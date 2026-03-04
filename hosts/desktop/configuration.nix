@@ -16,6 +16,9 @@
 
   networking.hostName = "desktop"; # Define your hostname.
 
+  # recommended for systems above 16GB of RAM and on a faster internet connection
+  nix.settings.download-buffer-size = 524288000; # 500 MB
+
   # Additional data drives
   fileSystems."/mnt/nvme_2t" = {
     device = "/dev/disk/by-uuid/29482386-070a-495e-b66c-8f0be0a994fe";
