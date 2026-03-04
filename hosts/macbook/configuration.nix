@@ -4,11 +4,8 @@
   imports = [
     ./hardware-configuration.nix
     ../common/default.nix
-    ../../modules/containers.nix
-    ../../modules/flatpak.nix
     ../../modules/kde.nix
     ../../modules/packages.nix
-    ../../modules/programming.nix
   ];
 
   networking.hostName = "macbook"; # Define your hostname.

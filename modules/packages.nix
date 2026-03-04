@@ -1,53 +1,180 @@
-{ pkgs, nixpkgs-calibre, ... }:
+{
+  pkgs,
+  nixpkgs-calibre,
+  nixpkgs-zed-editor,
+  features ? { },
+  lib,
+  config,
+  options,
+  ...
+}:
 
-# override for broken calibre package
 let
+  f = features;
+
   pkgs-calibre = import nixpkgs-calibre {
     inherit (pkgs) system;
     config.allowUnfree = true;
   };
 
-in
-{
-  # common packages
-  environment.systemPackages = with pkgs; [
-    brave
-    pkgs-calibre.calibre # override for broken calibre package
-    discord
-    element-desktop
-    ente-desktop
-    protonvpn-gui
-    signal-desktop
-    slack
-    spotify
-    vlc
-    yubioath-flutter
+  pkgs-zed-editor = import nixpkgs-zed-editor {
+    inherit (pkgs) system;
+    config.allowUnfree = true;
+  };
+
+  # Custom scrcpy with hardware acceleration (fixes ghost window)
+  scrcpy-hw = pkgs.scrcpy.overrideAttrs (oldAttrs: {
+    nativeBuildInputs = (oldAttrs.nativeBuildInputs or [ ]) ++ [ pkgs.makeWrapper ];
+    postInstall =
+      (oldAttrs.postInstall or "")
+      + ''
+        wrapProgram $out/bin/scrcpy --add-flags "--render-driver=opengl"
+      '';
+  });
+
+  explicitPackages = lib.flatten [
+
+    # ── Common ────────────────────────────────────────────────────────────
+    (with pkgs; [ dig fastfetch nmap psmisc nvd tree vim wget ])
+
+    # ── Packages ──────────────────────────────────────────────────────────
+    (with pkgs; [
+      brave
+      discord
+      element-desktop
+      ente-desktop
+      protonvpn-gui
+      signal-desktop
+      slack
+      spotify
+      vlc
+      yubioath-flutter
+    ])
+    (lib.optionals (f.calibre or false) [ pkgs-calibre.calibre ])
+
+    # ── Programming ───────────────────────────────────────────────────────
+    (lib.optionals (f.programming or false) (with pkgs; [
+      android-tools
+      argocd
+      claude-code
+      flatpak-builder
+      gemini-cli
+      gh
+      kompose
+      kubectl
+      kubernetes-helm
+      minikube
+      nil
+      nixd
+    ]))
+    (lib.optionals (f.zed or false) [ pkgs-zed-editor.zed-editor ])
+
+    # ── Gaming ────────────────────────────────────────────────────────────
+    (lib.optionals (f.gaming or false) (with pkgs; [ jq protonplus ]))
+
+    # ── Video Editing ─────────────────────────────────────────────────────
+    (lib.optionals (f.video or false) (with pkgs; [
+      davinci-resolve-studio
+      scrcpy-hw
+      v4l-utils
+    ]))
+
+    # ── Containers ────────────────────────────────────────────────────────
+    (lib.optionals (f.containers or false) (with pkgs; [ distrobox ]))
+
+    # ── Virtualisation ────────────────────────────────────────────────────
+    (lib.optionals (f.virtualisation or false) (with pkgs; [ virt-manager ]))
+
+    # ── Flatpak ───────────────────────────────────────────────────────────
+    (lib.optionals (f.flatpak or false) (with pkgs; [ bazaar ]))
+
   ];
 
-  # install and configure 1password
-  programs._1password.enable = true;
-  programs._1password-gui = {
-    enable = true;
-    # certain features, including CLI integration and system authentication support,
-    # require enabling PolKit integration on some desktop environments (e.g. Plasma).
-    polkitPolicyOwners = [ "noel" ];
+in
+{
+  options.my.explicitPackages = lib.mkOption {
+    type = lib.types.listOf lib.types.package;
+    default = [ ];
+    description = "Packages explicitly declared in packages.nix (excludes transitive deps).";
   };
 
-  # brave configuration
-  programs.chromium = {
-    enable = true;
-    extensions = [
-      "aeblfdkhhhdcdjpifhhbdiojplfjncoa" # 1Password
-      "eimadpbcbfnmbkopoojfekhnkhdbieeh" # Dark Reader
-      "cjpalhdlnbpafiamejdnhcphjbkeiagm" # uBlock Origin
-      "dbepggeogbaibhgnhhndojpepiihcmeb" # Vimium
-      "lcbjdhceifofjlpecfpeimnnphbcjgnc" # xBrowserSync
+  config = {
+    my.explicitPackages = explicitPackages;
+
+    environment.systemPackages = explicitPackages;
+
+    # ── 1Password ────────────────────────────────────────────────────────
+    programs._1password.enable = true;
+    programs._1password-gui = {
+      enable = true;
+      polkitPolicyOwners = [ "noel" ];
+    };
+
+    # ── Brave / Chromium ─────────────────────────────────────────────────
+    programs.chromium = {
+      enable = true;
+      extensions = [
+        "aeblfdkhhhdcdjpifhhbdiojplfjncoa" # 1Password
+        "eimadpbcbfnmbkopoojfekhnkhdbieeh" # Dark Reader
+        "cjpalhdlnbpafiamejdnhcphjbkeiagm" # uBlock Origin
+        "dbepggeogbaibhgnhhndojpepiihcmeb" # Vimium
+        "lcbjdhceifofjlpecfpeimnnphbcjgnc" # xBrowserSync
+      ];
+    };
+
+    environment.etc."brave/policies/managed/policies.json" = {
+      text = builtins.toJSON (import ./brave-policies.nix);
+    };
+
+    # ── Containers ───────────────────────────────────────────────────────
+    virtualisation.docker.enable = f.containers or false;
+    virtualisation.podman = lib.mkIf (f.containers or false) {
+      enable = true;
+      defaultNetwork.settings.dns_enabled = true;
+    };
+    users.users.noel.extraGroups =
+      lib.optionals (f.containers or false) [ "docker" ]
+      ++ lib.optionals (f.virtualisation or false) [ "libvirtd" ];
+
+    # ── Virtualisation ───────────────────────────────────────────────────
+    virtualisation.libvirtd = lib.mkIf (f.virtualisation or false) {
+      enable = true;
+      qemu = {
+        package = pkgs.qemu_kvm;
+        runAsRoot = true;
+        swtpm.enable = true;
+      };
+    };
+
+    # ── Flatpak ──────────────────────────────────────────────────────────
+    services.flatpak.enable = f.flatpak or false;
+
+    # ── Gaming ───────────────────────────────────────────────────────────
+    programs.steam = lib.mkIf (f.gaming or false) {
+      enable = true;
+      remotePlay.openFirewall = true;
+      dedicatedServer.openFirewall = true;
+      localNetworkGameTransfers.openFirewall = true;
+    };
+    programs.gamescope.enable = f.gaming or false;
+    programs.gamemode.enable = f.gaming or false;
+    programs.zwift = lib.mkIf (f.zwift or false) {
+      enable = true;
+      containerTool = "podman";
+    };
+
+    # ── Video Editing ─────────────────────────────────────────────────────
+    hardware.graphics.extraPackages = lib.optionals (f.video or false) [
+      pkgs.rocmPackages.clr.icd
     ];
-  };
-
-  # reference the external policy for brave
-
-  environment.etc."brave/policies/managed/policies.json" = {
-    text = builtins.toJSON (import ./brave-policies.nix);
+    hardware.amdgpu.opencl.enable = f.video or false;
+    boot.initrd.kernelModules = lib.optionals (f.video or false) [ "amdgpu" ];
+    boot.extraModulePackages = lib.optionals (f.video or false) (
+      with config.boot.kernelPackages; [ v4l2loopback ]
+    );
+    boot.kernelModules = lib.optionals (f.video or false) [ "v4l2loopback" ];
+    boot.extraModprobeConfig = lib.mkIf (f.video or false) ''
+      options v4l2loopback devices=1 video_nr=10 card_label="Virtual Camera" exclusive_caps=1
+    '';
   };
 }

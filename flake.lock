@@ -68,7 +68,7 @@
         "type": "github"
       }
     },
-    "nixpkgs-zed": {
+    "nixpkgs-zed-editor": {
       "locked": {
         "lastModified": 1771954007,
         "narHash": "sha256-vNqXY62k2dhDPUP3nqeVVNF4HvLwmMdJ28z0TSyipLI=",
@@ -106,7 +106,7 @@
         "nixpkgs": "nixpkgs",
         "nixpkgs-calibre": "nixpkgs-calibre",
         "nixpkgs-stable": "nixpkgs-stable",
-        "nixpkgs-zed": "nixpkgs-zed",
+        "nixpkgs-zed-editor": "nixpkgs-zed-editor",
         "zwift": "zwift"
       }
     },
@@ -115,11 +115,11 @@
         "nixpkgs": "nixpkgs_2"
       },
       "locked": {
-        "lastModified": 1772224324,
-        "narHash": "sha256-yystzGXUYOPC8JT9OXmmiA8jFZOTgRx4aCS+dHzrFN4=",
+        "lastModified": 1772604980,
+        "narHash": "sha256-LepcA4EUgPHmQ05nYYmRvSkAB27oqm8CjfJuxPNp12k=",
         "owner": "netbrain",
         "repo": "zwift",
-        "rev": "fea7a7c9aec473144303d06a6b9bb589993fac63",
+        "rev": "1cd77e180d6963e843d3b56793adaaecafe83214",
         "type": "github"
       },
       "original": {

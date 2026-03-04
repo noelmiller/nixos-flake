@@ -93,15 +93,4 @@
 
   # Nerd Fonts
   fonts.packages = builtins.filter lib.attrsets.isDerivation (builtins.attrValues pkgs.nerd-fonts);
-
-  # core programs
-  environment.systemPackages = with pkgs; [
-    dig
-    fastfetch
-    nmap
-    psmisc
-    tree
-    vim
-    wget
-  ];
 }
