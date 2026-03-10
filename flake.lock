@@ -52,22 +52,6 @@
         "type": "github"
       }
     },
-    "nixpkgs-zed-editor": {
-      "locked": {
-        "lastModified": 1771954007,
-        "narHash": "sha256-vNqXY62k2dhDPUP3nqeVVNF4HvLwmMdJ28z0TSyipLI=",
-        "owner": "NixOS",
-        "repo": "nixpkgs",
-        "rev": "63b5125ed0e8c41b559ab4a02d1470b83d2d5660",
-        "type": "github"
-      },
-      "original": {
-        "owner": "NixOS",
-        "repo": "nixpkgs",
-        "rev": "63b5125ed0e8c41b559ab4a02d1470b83d2d5660",
-        "type": "github"
-      }
-    },
     "nixpkgs_2": {
       "locked": {
         "lastModified": 1770141374,
@@ -89,7 +73,6 @@
         "home-manager": "home-manager",
         "nixpkgs": "nixpkgs",
         "nixpkgs-stable": "nixpkgs-stable",
-        "nixpkgs-zed-editor": "nixpkgs-zed-editor",
         "zwift": "zwift"
       }
     },

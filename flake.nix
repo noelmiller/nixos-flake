@@ -5,7 +5,6 @@
     zwift.url = "github:netbrain/zwift";
     ## Example for pinning a package
     #nixpkgs-calibre.url = "github:NixOS/nixpkgs/e75cdcb2b4b3698c61993b85440ee97761dbcc88";
-    nixpkgs-zed-editor.url = "github:NixOS/nixpkgs/63b5125ed0e8c41b559ab4a02d1470b83d2d5660";
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
