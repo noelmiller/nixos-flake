@@ -1,26 +1,20 @@
 {
   pkgs,
-  nixpkgs-calibre,
-  nixpkgs-zed-editor,
+  # nixpkgs-calibre,
   features ? { },
   lib,
   config,
-  options,
   ...
 }:
 
 let
   f = features;
 
-  pkgs-calibre = import nixpkgs-calibre {
-    inherit (pkgs) system;
-    config.allowUnfree = true;
-  };
-
-  pkgs-zed-editor = import nixpkgs-zed-editor {
-    inherit (pkgs) system;
-    config.allowUnfree = true;
-  };
+  ## Example for pinning a package
+  #  pkgs-calibre = import nixpkgs-calibre {
+  #    inherit (pkgs) system;
+  #    config.allowUnfree = true;
+  #  };
 
   # Custom scrcpy with hardware acceleration (fixes ghost window)
   scrcpy-hw = pkgs.scrcpy.overrideAttrs (oldAttrs: {
@@ -47,6 +41,7 @@ let
     # ── Packages ──────────────────────────────────────────────────────────
     (with pkgs; [
       brave
+      calibre
       discord
       element-desktop
       ente-desktop
@@ -57,7 +52,9 @@ let
       vlc
       yubioath-flutter
     ])
-    (lib.optionals (f.calibre or false) [ pkgs-calibre.calibre ])
+
+    ## Example for pinning a package
+    # lib.optionals (f.calibre or false) [ pkgs-calibre.calibre ]
 
     # ── Programming ───────────────────────────────────────────────────────
     (lib.optionals (f.programming or false) (
@@ -75,9 +72,9 @@ let
         minikube
         nil
         nixd
+        zed-editor
       ]
     ))
-    (lib.optionals (f.zed or false) [ pkgs-zed-editor.zed-editor ])
 
     # ── Gaming ────────────────────────────────────────────────────────────
     (lib.optionals (f.gaming or false) (
