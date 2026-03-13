@@ -106,9 +106,19 @@ def cache_set(eval_id: str, pkg: str, status: str) -> None:
 
 def _fetch_raw(url: str, headers: dict[str, str] | None = None) -> bytes:
     req = urllib.request.Request(url, headers=headers or {})
-    with urllib.request.urlopen(req, timeout=120) as resp:  # pyright: ignore[reportAny]
-        raw: bytes = resp.read()  # pyright: ignore[reportAny]
-    return raw
+    for attempt in range(5):
+        try:
+            with urllib.request.urlopen(req, timeout=120) as resp:  # pyright: ignore[reportAny]
+                raw: bytes = resp.read()  # pyright: ignore[reportAny]
+            return raw
+        except urllib.error.HTTPError as e:
+            if e.code != 429:
+                raise
+            retry_after = int(e.headers.get("Retry-After", 0))  # pyright: ignore[reportAny]
+            delay = retry_after if retry_after > 0 else (2 ** attempt * 5)
+            print(f"  429 rate limited — retrying in {delay}s (attempt {attempt + 1}/5)", file=sys.stderr)
+            time.sleep(delay)
+    raise RuntimeError(f"Hydra rate limit exceeded after 5 retries: {url}")
 
 
 def fetch_json_evals(url: str) -> HydraEvalsPage:
@@ -256,15 +266,14 @@ def get_hydra_page(page: int) -> list[tuple[str, str]]:
     with _page_lock:
         if page in _page_cache:
             return _page_cache[page]
-    print(f"  (fetching eval page {page}...)", file=sys.stderr)
-    data = fetch_json_evals(f"{OFFICIAL_HYDRA}/jobset/nixos/unstable/evals?page={page}")
-    result = [
-        (str(e["id"]), e["jobsetevalinputs"]["nixpkgs"]["revision"])
-        for e in data["evals"]
-    ]
-    with _page_lock:
+        print(f"  (fetching eval page {page}...)", file=sys.stderr)
+        data = fetch_json_evals(f"{OFFICIAL_HYDRA}/jobset/nixos/unstable/evals?page={page}")
+        result = [
+            (str(e["id"]), e["jobsetevalinputs"]["nixpkgs"]["revision"])
+            for e in data["evals"]
+        ]
         _page_cache[page] = result
-    return result
+        return result
 
 
 def check_hydra_eval(pkg: str, eval_id: str) -> str:
