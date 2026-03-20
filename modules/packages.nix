@@ -179,6 +179,9 @@ in
       containerTool = "podman";
     };
 
+    hardware.opentabletdriver.enable = (f.gaming or false);
+    hardware.uinput.enable = (f.gaming or false);
+
     # ── Tailscale ───────────────────────────────────────────────────────────
     services.tailscale.enable = f.tailscale or false;
 
@@ -191,7 +194,13 @@ in
     boot.extraModulePackages = lib.optionals (f.video or false) (
       with config.boot.kernelPackages; [ v4l2loopback ]
     );
-    boot.kernelModules = lib.optionals (f.video or false) [ "v4l2loopback" ];
+
+    # ── Kernel Modules ─────────────────────────────────────────────────────
+    boot.kernelModules =
+      # needed for opentabletdriver
+      lib.optionals (f.gaming or false) [ "uinput" ]
+      # needed for obs virtual camera
+      ++ lib.optionals (f.video or false) [ "v4l2loopback" ];
     boot.extraModprobeConfig = lib.mkIf (f.video or false) ''
       options v4l2loopback devices=1 video_nr=10 card_label="Virtual Camera" exclusive_caps=1
     '';
