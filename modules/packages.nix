@@ -45,7 +45,7 @@ let
       discord
       element-desktop
       ente-desktop
-      protonvpn-gui
+      proton-vpn
       signal-desktop
       slack
       spotify
