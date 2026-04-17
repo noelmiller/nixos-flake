@@ -63,6 +63,7 @@ let
         android-tools
         argocd
         claude-code
+        claude-desktop-fhs
         flatpak-builder
         gemini-cli
         gh

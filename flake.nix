@@ -3,6 +3,7 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-25.11";
     zwift.url = "github:netbrain/zwift";
+    claude-desktop.url = "github:aaddrick/claude-desktop-debian";
     ## Example for pinning a package
     #nixpkgs-calibre.url = "github:NixOS/nixpkgs/e75cdcb2b4b3698c61993b85440ee97761dbcc88";
     home-manager = {
@@ -18,6 +19,7 @@
       nixpkgs-stable,
       home-manager,
       zwift,
+      claude-desktop,
       ## Example for pinning a package
       # nixpkgs-calibre,
       ...
@@ -50,7 +52,7 @@
             zwift.nixosModules.default
             ./modules/packages.nix
             {
-              nixpkgs.overlays = [ overlay-stable ];
+              nixpkgs.overlays = [ overlay-stable claude-desktop.overlays.default ];
               nixpkgs.config.allowUnfree = true;
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
