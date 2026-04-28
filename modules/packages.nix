@@ -182,6 +182,21 @@ in
 
     hardware.opentabletdriver.enable = (f.gaming or false);
     hardware.uinput.enable = (f.gaming or false);
+    # Fightcade Ports
+    networking.firewall = lib.mkIf (f.gaming or false) {
+      allowedUDPPortRanges = [
+        {
+          from = 6000;
+          to = 6009;
+        }
+      ];
+      allowedTCPPortRanges = [
+        {
+          from = 7000;
+          to = 7005;
+        }
+      ];
+    };
 
     # ── Tailscale ───────────────────────────────────────────────────────────
     services.tailscale.enable = f.tailscale or false;
